@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - production
+permissions:
+  contents: write
 
 jobs:
   deploy:
