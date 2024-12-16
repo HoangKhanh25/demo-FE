@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: write  # Cấp quyền ghi cho repository
-  id-token: write
+  id-token: write  # Cấp quyền ID Token cho GitHub Pages
 
 jobs:
   build-and-deploy:
@@ -29,13 +29,15 @@ jobs:
     - name: Build project
       run: npm run build  # Lệnh build của Vite
 
+    - name: Check build directory
+      run: ls -l ./dist  # Kiểm tra xem thư mục ./dist có tồn tại không
+
     - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v2
+      uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}  # Dùng GITHUB_TOKEN mặc định
         publish_dir: ./dist  # Chỉ định thư mục chứa các tệp build
-        branch: production
+        branch: gh-pages  # Nhánh để deploy (gh-pages)
 
     - name: Set up GitHub Pages link
       run: |
