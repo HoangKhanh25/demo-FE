@@ -37,7 +37,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}  # Dùng GITHUB_TOKEN mặc định
         publish_dir: ./dist  # Chỉ định thư mục chứa các tệp build
-        branch: gh-pages  # Nhánh để deploy (gh-pages)
+        branch: production  # Thay gh-pages bằng production
 
     - name: Set up GitHub Pages link
       run: |
