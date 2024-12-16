@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - production  # Chạy action khi có thay đổi trên nhánh production
+permissions:
+  contents: write
 
 jobs:
   deploy:
