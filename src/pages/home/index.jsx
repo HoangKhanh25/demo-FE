@@ -56,7 +56,7 @@ const Home = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            Bill is a cat. update
+            Bill is a cat. update go on
           </div>
         </Content>
         <Footer
