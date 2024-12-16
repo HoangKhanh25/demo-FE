@@ -9,6 +9,6 @@ export default defineConfig({
       overlay: true,
     },
   },
-  base: '/demo-FE/',
+  base: '/demo-FE',
   // logLevel: 'warn',
 });
