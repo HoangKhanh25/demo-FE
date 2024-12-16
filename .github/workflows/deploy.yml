@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - production  # Chạy action khi có thay đổi trên nhánh production
+
 permissions:
-  contents: write
+  contents: write  # Cấp quyền ghi cho repository
 
 jobs:
   build:
@@ -17,39 +18,42 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3  # Đảm bảo sử dụng phiên bản đúng của actions/checkout
+
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v3  # Đảm bảo sử dụng phiên bản đúng của actions/setup-node
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
+
+    - name: Install dependencies
+      run: npm ci  # Dùng npm ci để cài đặt dependencies từ package-lock.json
+
+    - name: Build project
+      run: npm run build --if-present  # Xây dựng ứng dụng Vite
+
   deploy:
+    runs-on: ubuntu-latest  # Đảm bảo bước deploy cũng chạy trên Ubuntu
 
     steps:
-      # Checkout mã nguồn của dự án
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # Checkout mã nguồn dự án
 
-      # Cài đặt Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v3  # Cài đặt Node.js cho bước deploy
         with:
-          node-version: '18'  # Cài đặt Node.js phiên bản 18
+          node-version: '18'  # Chọn phiên bản Node.js cho deploy
 
-      # Cài đặt các phụ thuộc của dự án
       - name: Install dependencies
-        run: npm install
+        run: npm install  # Cài đặt dependencies
 
-      # Build ứng dụng React + Vite
       - name: Build project
-        run: npm run build  # Lệnh build của Vite sẽ tạo ra thư mục ./dist
+        run: npm run build  # Xây dựng lại ứng dụng React + Vite
 
-      # Deploy lên GitHub Pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3  # Dùng peaceiris actions để deploy
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Dùng GITHUB_TOKEN mặc định
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Dùng token của GitHub Actions
           publish_dir: ./dist  # Chỉ định thư mục chứa các tệp build
-          branch: gh-pages  # Nhánh để deploy (có thể thay đổi theo nhu cầu)
+          branch: gh-pages  # Nhánh đích để deploy
