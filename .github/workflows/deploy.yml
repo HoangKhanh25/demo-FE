@@ -39,6 +39,9 @@ jobs:
         publish_dir: ./dist  # Chỉ định thư mục chứa các tệp build
         branch: production  # Thay gh-pages bằng production
 
+    - name: Add .nojekyll file  # Thêm bước tạo .nojekyll
+      run: echo > ./dist/.nojekyll  # Tạo file .nojekyll trong thư mục dist
+
     - name: Set up GitHub Pages link
       run: |
         echo "GitHub Pages link: https://${{ github.repository_owner }}.github.io/${{ github.repository }}/"
